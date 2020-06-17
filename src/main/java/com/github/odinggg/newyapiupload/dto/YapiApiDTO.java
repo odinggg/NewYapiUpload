@@ -10,7 +10,7 @@ import java.util.Map;
  * @author Hansen
  * @date 2019/2/11 3:16 PM
  */
-public class YapiApiDTO implements Serializable{
+public class YapiApiDTO implements Serializable {
     /**
      * 路径
      */
@@ -39,7 +39,7 @@ public class YapiApiDTO implements Serializable{
     /**
      * 请求方法
      */
-    private String method="POST";
+    private String method = "POST";
 
     /**
      * 请求 类型 raw,form,json
@@ -48,7 +48,7 @@ public class YapiApiDTO implements Serializable{
     /**
      * 请求form
      */
-    private List<Map<String,String>> req_body_form;
+    private List<Map<String, String>> req_body_form;
 
     /**
      * 描述

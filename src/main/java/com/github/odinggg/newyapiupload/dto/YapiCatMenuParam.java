@@ -3,7 +3,6 @@ package com.github.odinggg.newyapiupload.dto;
 import com.github.odinggg.newyapiupload.constant.YapiConstant;
 import com.google.common.base.Strings;
 
-
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -17,7 +16,7 @@ public class YapiCatMenuParam implements Serializable {
     /**
      * 描述
      */
-    private String desc="工具上传临时文件夹";
+    private String desc = "工具上传临时文件夹";
     /**
      * 名字
      */
@@ -33,7 +32,7 @@ public class YapiCatMenuParam implements Serializable {
     /**
      * 父级菜单id
      */
-    private Integer parent_id=-1;
+    private Integer parent_id = -1;
 
     public String getDesc() {
         return desc;
@@ -95,8 +94,8 @@ public class YapiCatMenuParam implements Serializable {
         this.name = name;
         this.project_id = project_id;
         this.token = token;
-        if(Strings.isNullOrEmpty(name)){
-            this.name= YapiConstant.menu;
+        if (Strings.isNullOrEmpty(name)) {
+            this.name = YapiConstant.menu;
         }
     }
 
@@ -105,8 +104,8 @@ public class YapiCatMenuParam implements Serializable {
         this.project_id = project_id;
         this.token = token;
         this.parent_id = parent_id;
-        if(Objects.isNull(parent_id)){
-            this.parent_id=-1;
+        if (Objects.isNull(parent_id)) {
+            this.parent_id = -1;
         }
     }
 }

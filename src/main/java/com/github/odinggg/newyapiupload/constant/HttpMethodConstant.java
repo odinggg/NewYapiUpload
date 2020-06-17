@@ -8,13 +8,13 @@ package com.github.odinggg.newyapiupload.constant;
  */
 public interface HttpMethodConstant {
 
-    String GET="GET";
+    String GET = "GET";
 
-    String POST="POST";
+    String POST = "POST";
 
-    String PUT="PUT";
+    String PUT = "PUT";
 
-    String DELETE="DELETE";
+    String DELETE = "DELETE";
 
-    String PATCH="PATCH";
+    String PATCH = "PATCH";
 }

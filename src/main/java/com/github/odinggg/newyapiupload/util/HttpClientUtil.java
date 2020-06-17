@@ -57,7 +57,7 @@ public class HttpClientUtil {
     private static int maxTotal = 100;
     private static int defaultMaxPerRoute = 100;
 
-    private  static RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(socketTimeout)
+    private static RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(socketTimeout)
             .setConnectTimeout(connectionTimeout)
             .setConnectionRequestTimeout(connectionRequestTimeout)
             .build();
@@ -68,7 +68,7 @@ public class HttpClientUtil {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
-    private HttpClientUtil(){
+    private HttpClientUtil() {
 
     }
 
@@ -98,15 +98,15 @@ public class HttpClientUtil {
 
         //支持TLSv1.2协议
         Registry<ConnectionSocketFactory> tlsRegistry
-                        = RegistryBuilder.<ConnectionSocketFactory>create().register("http",
-                        PlainConnectionSocketFactory.INSTANCE).register("https",
-                        new SSLConnectionSocketFactory(createIgnoreVerifySSL())).build();
+                = RegistryBuilder.<ConnectionSocketFactory>create().register("http",
+                PlainConnectionSocketFactory.INSTANCE).register("https",
+                new SSLConnectionSocketFactory(createIgnoreVerifySSL())).build();
         PoolingHttpClientConnectionManager tlsCM = new PoolingHttpClientConnectionManager(tlsRegistry);
         tlsCM.setMaxTotal(maxTotal);
         tlsCM.setDefaultMaxPerRoute(defaultMaxPerRoute);
         tlsClient = HttpClients.custom()
-                        .setConnectionManager(tlsCM).setDefaultRequestConfig(requestConfig)
-                        .build();
+                .setConnectionManager(tlsCM).setDefaultRequestConfig(requestConfig)
+                .build();
     }
 
     @PreDestroy
@@ -120,9 +120,9 @@ public class HttpClientUtil {
     }
 
     public static CloseableHttpClient getHttpclient() {
-        if(httpclient==null){
-            synchronized (HttpClientUtil.class){
-                if(httpclient==null){
+        if (httpclient == null) {
+            synchronized (HttpClientUtil.class) {
+                if (httpclient == null) {
                     try {
                         init();
                     } catch (Exception e) {
@@ -135,9 +135,9 @@ public class HttpClientUtil {
     }
 
     public CloseableHttpClient getTlsClient() {
-        if(tlsClient==null){
-            synchronized (HttpClientUtil.class){
-                if(tlsClient==null){
+        if (tlsClient == null) {
+            synchronized (HttpClientUtil.class) {
+                if (tlsClient == null) {
                     try {
                         init();
                     } catch (Exception e) {
@@ -148,7 +148,6 @@ public class HttpClientUtil {
         }
         return tlsClient;
     }
-
 
 
     private static class StringResponseHandler implements
@@ -367,7 +366,7 @@ public class HttpClientUtil {
      * @return String
      * @throws IOException
      */
-    public static  String ObjectToString(CloseableHttpResponse response, String charset) throws IOException {
+    public static String ObjectToString(CloseableHttpResponse response, String charset) throws IOException {
         try {
             HttpEntity resEntity = response.getEntity();
             String responseBaby = null;
@@ -389,14 +388,14 @@ public class HttpClientUtil {
         X509TrustManager trustManager = new X509TrustManager() {
             @Override
             public void checkClientTrusted(
-                            X509Certificate[] paramArrayOfX509Certificate,
-                            String paramString) throws CertificateException {
+                    X509Certificate[] paramArrayOfX509Certificate,
+                    String paramString) throws CertificateException {
             }
 
             @Override
             public void checkServerTrusted(
-                            X509Certificate[] paramArrayOfX509Certificate,
-                            String paramString) throws CertificateException {
+                    X509Certificate[] paramArrayOfX509Certificate,
+                    String paramString) throws CertificateException {
             }
 
             @Override
@@ -405,7 +404,7 @@ public class HttpClientUtil {
             }
         };
 
-        sc.init(null, new TrustManager[] { trustManager }, null);
+        sc.init(null, new TrustManager[]{trustManager}, null);
         return sc;
     }
 

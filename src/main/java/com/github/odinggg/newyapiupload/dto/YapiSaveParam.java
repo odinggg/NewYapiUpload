@@ -9,7 +9,7 @@ import java.util.List;
  * @author Hansen
  * @date 2019/1/31 11:43 AM
  */
-public class YapiSaveParam implements Serializable{
+public class YapiSaveParam implements Serializable {
     /**
      * 项目 token  唯一标识
      */
@@ -34,11 +34,11 @@ public class YapiSaveParam implements Serializable{
     /**
      * 分类id
      */
-    private String  catid;
+    private String catid;
     /**
      * 请求数据类型   raw,form,json
      */
-    private String req_body_type="json";
+    private String req_body_type = "json";
     /**
      * 请求数据body
      */
@@ -54,11 +54,11 @@ public class YapiSaveParam implements Serializable{
     /**
      * 状态 undone,默认done
      */
-    private String status="undone";
+    private String status = "undone";
     /**
      * 返回参数类型  json
      */
-    private String res_body_type="json";
+    private String res_body_type = "json";
 
     /**
      * 返回参数
@@ -68,12 +68,12 @@ public class YapiSaveParam implements Serializable{
     /**
      * 返回参数是否为json_schema
      */
-    private boolean res_body_is_json_schema=true;
+    private boolean res_body_is_json_schema = true;
 
     /**
      * 创建的用户名
      */
-    private Integer edit_uid=11;
+    private Integer edit_uid = 11;
     /**
      * 用户名称
      */
@@ -84,23 +84,23 @@ public class YapiSaveParam implements Serializable{
      */
     private boolean switch_notice;
 
-    private String message=" ";
+    private String message = " ";
     /**
      * 文档描述
      */
-    private String desc="<h3>请补充描述</h3>";
+    private String desc = "<h3>请补充描述</h3>";
 
     /**
      * 请求方式
      */
-    private String method="POST";
+    private String method = "POST";
     /**
      * 请求参数
      */
     private List req_params;
 
 
-    private String  id;
+    private String id;
     /**
      * 项目id
      */
@@ -320,34 +320,32 @@ public class YapiSaveParam implements Serializable{
     public YapiSaveParam() {
     }
 
-    public YapiSaveParam(String token, String title, String path,String req_body_other ,String res_body,Integer projectId,String yapiUrl,String desc) {
+    public YapiSaveParam(String token, String title, String path, String req_body_other, String res_body, Integer projectId, String yapiUrl, String desc) {
         this.token = token;
         this.title = title;
         this.path = path;
         this.res_body = res_body;
-        this.req_body_other=req_body_other;
-        this.projectId=projectId;
-        this.yapiUrl=yapiUrl;
-        this.desc=desc;
+        this.req_body_other = req_body_other;
+        this.projectId = projectId;
+        this.yapiUrl = yapiUrl;
+        this.desc = desc;
     }
 
 
-    public YapiSaveParam(String token, String title, String path,List req_query,String req_body_other ,String res_body,Integer projectId,String yapiUrl,boolean req_body_is_json_schema,String method,String desc,List header) {
+    public YapiSaveParam(String token, String title, String path, List req_query, String req_body_other, String res_body, Integer projectId, String yapiUrl, boolean req_body_is_json_schema, String method, String desc, List header) {
         this.token = token;
         this.title = title;
         this.path = path;
-        this.req_query=req_query;
+        this.req_query = req_query;
         this.res_body = res_body;
-        this.req_body_other=req_body_other;
-        this.projectId=projectId;
-        this.yapiUrl=yapiUrl;
-        this.req_body_is_json_schema=req_body_is_json_schema;
-        this.method=method;
-        this.desc=desc;
-        this.req_headers=header;
+        this.req_body_other = req_body_other;
+        this.projectId = projectId;
+        this.yapiUrl = yapiUrl;
+        this.req_body_is_json_schema = req_body_is_json_schema;
+        this.method = method;
+        this.desc = desc;
+        this.req_headers = header;
     }
-
-
 
 
 }

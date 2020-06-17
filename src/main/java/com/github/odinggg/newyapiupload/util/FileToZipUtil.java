@@ -21,11 +21,11 @@ public class FileToZipUtil {
     private static final int BUFFER_SIZE = 2 * 1024;
 
     /**
-     * @param srcDir 压缩文件夹路径
-     * @param outDir 压缩文件输出流
+     * @param srcDir           压缩文件夹路径
+     * @param outDir           压缩文件输出流
      * @param KeepDirStructure 是否保留原来的目录结构,
-     * 			true:保留目录结构;
-     *			false:所有文件跑到压缩包根目录下(注意：不保留目录结构可能会出现同名文件,会压缩失败)
+     *                         true:保留目录结构;
+     *                         false:所有文件跑到压缩包根目录下(注意：不保留目录结构可能会出现同名文件,会压缩失败)
      * @throws RuntimeException 压缩失败会抛出运行时异常
      */
     public static void toZip(Set<String> srcDir, String outDir,
@@ -61,12 +61,13 @@ public class FileToZipUtil {
 
     /**
      * 递归压缩方法
-     * @param sourceFile 源文件
-     * @param zos zip输出流
-     * @param name 压缩后的名称
+     *
+     * @param sourceFile       源文件
+     * @param zos              zip输出流
+     * @param name             压缩后的名称
      * @param KeepDirStructure 是否保留原来的目录结构,
-     * 			true:保留目录结构;
-     *			false:所有文件跑到压缩包根目录下(注意：不保留目录结构可能会出现同名文件,会压缩失败)
+     *                         true:保留目录结构;
+     *                         false:所有文件跑到压缩包根目录下(注意：不保留目录结构可能会出现同名文件,会压缩失败)
      * @throws Exception
      */
     private static void compress(File sourceFile, ZipOutputStream zos,

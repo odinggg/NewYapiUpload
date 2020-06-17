@@ -8,26 +8,26 @@ package com.github.odinggg.newyapiupload.constant;
  */
 public interface SpringMVCConstant {
 
-    String RequestMapping="org.springframework.web.bind.annotation.RequestMapping";
+    String RequestMapping = "org.springframework.web.bind.annotation.RequestMapping";
 
-    String GetMapping="org.springframework.web.bind.annotation.GetMapping";
+    String GetMapping = "org.springframework.web.bind.annotation.GetMapping";
 
-    String PostMapping="org.springframework.web.bind.annotation.PostMapping";
+    String PostMapping = "org.springframework.web.bind.annotation.PostMapping";
 
-    String PutMapping="org.springframework.web.bind.annotation.PutMapping";
+    String PutMapping = "org.springframework.web.bind.annotation.PutMapping";
 
-    String DeleteMapping="org.springframework.web.bind.annotation.DeleteMapping";
+    String DeleteMapping = "org.springframework.web.bind.annotation.DeleteMapping";
 
-    String PatchMapping="org.springframework.web.bind.annotation.PatchMapping";
+    String PatchMapping = "org.springframework.web.bind.annotation.PatchMapping";
 
-    String RequestBody="org.springframework.web.bind.annotation.RequestBody";
+    String RequestBody = "org.springframework.web.bind.annotation.RequestBody";
 
-    String RequestParam="org.springframework.web.bind.annotation.RequestParam";
+    String RequestParam = "org.springframework.web.bind.annotation.RequestParam";
 
-    String RequestHeader="org.springframework.web.bind.annotation.RequestHeader";
+    String RequestHeader = "org.springframework.web.bind.annotation.RequestHeader";
 
-    String RequestAttribute="org.springframework.web.bind.annotation.RequestAttribute";
+    String RequestAttribute = "org.springframework.web.bind.annotation.RequestAttribute";
 
-    String PathVariable="org.springframework.web.bind.annotation.PathVariable";
+    String PathVariable = "org.springframework.web.bind.annotation.PathVariable";
 
 }

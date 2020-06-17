@@ -8,15 +8,15 @@ package com.github.odinggg.newyapiupload.constant;
  */
 public interface JavaConstant {
 
-    String NotNull="javax.validation.constraints.NotNull";
+    String NotNull = "javax.validation.constraints.NotNull";
 
-    String NotEmpty="javax.validation.constraints.NotEmpty";
+    String NotEmpty = "javax.validation.constraints.NotEmpty";
 
-    String NotBlank="javax.validation.constraints.NotBlank";
+    String NotBlank = "javax.validation.constraints.NotBlank";
 
-    String HttpServletRequest="javax.servlet.http.HttpServletRequest";
+    String HttpServletRequest = "javax.servlet.http.HttpServletRequest";
 
-    String HttpServletResponse="javax.servlet.http.HttpServletResponse";
+    String HttpServletResponse = "javax.servlet.http.HttpServletResponse";
 
-    String Deprecate="java.lang.Deprecated";
+    String Deprecate = "java.lang.Deprecated";
 }

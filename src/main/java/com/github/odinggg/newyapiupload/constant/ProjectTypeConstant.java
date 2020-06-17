@@ -10,9 +10,9 @@ public interface ProjectTypeConstant {
     /**
      * dubbo 项目
      */
-    String dubbo="dubbo";
+    String dubbo = "dubbo";
     /**
      * api 项目
      */
-    String api="api";
+    String api = "api";
 }
