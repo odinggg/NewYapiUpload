@@ -1,0 +1,29 @@
+<idea-plugin>
+    <id>com.github.odinggg.NewYapiUpload</id>
+    <name>NewYapiUpload</name>
+    <vendor email="qinhaochun@aliyun.com" url="github.com/odinggg">NewYapiUpload</vendor>
+
+    <description><![CDATA[
+     upload api to yapi<br>
+      <em>support dubbo api and api upload</em>
+    ]]></description>
+
+    <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+        <action id="UploadToYapi" class="com.github.odinggg.newyapiupload.interaction.UploadToYapi" text="UploadToYapi"
+                description="UploadToYapi">
+            <add-to-group group-id="EditorLangPopupMenu" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="alt u"/>
+        </action>
+    </actions>
+
+    <depends>com.intellij.modules.java</depends>
+</idea-plugin>
