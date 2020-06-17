@@ -25,5 +25,13 @@
         </action>
     </actions>
 
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable parentId="tools"
+                                 instance="com.github.odinggg.newyapiupload.config.AppSettingsConfigurable"
+                                 id="com.github.odinggg.newyapiupload.config.AppSettingsConfigurable"
+                                 displayName="YApi: Upload Plugin Settings"/>
+        <applicationService serviceImplementation="com.github.odinggg.newyapiupload.config.AppSettingsState"/>
+    </extensions>
+
     <depends>com.intellij.modules.java</depends>
 </idea-plugin>
