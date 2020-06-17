@@ -20,14 +20,6 @@ import org.jetbrains.annotations.Nullable;
         storages = {@Storage("NewYApiUploadPlugin.xml")}
 )
 public class AppSettingsState implements PersistentStateComponent<AppSettingsState> {
-    /*
-             String projectToken = null;
-                String projectId = null;
-                String yapiUrl = null;
-                String projectType = null;
-                String returnClass = null;
-                String attachUpload = null;
-     */
     public String projectToken = "";
     public String projectId = "";
     public String yapiUrl = "";
