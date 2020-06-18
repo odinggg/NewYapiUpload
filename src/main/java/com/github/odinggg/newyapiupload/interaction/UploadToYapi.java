@@ -1,12 +1,10 @@
 package com.github.odinggg.newyapiupload.interaction;
 
-import com.github.odinggg.newyapiupload.build.BuildJsonForDubbo;
 import com.github.odinggg.newyapiupload.build.BuildJsonForYapi;
 import com.github.odinggg.newyapiupload.config.AppSettingsState;
 import com.github.odinggg.newyapiupload.constant.ProjectTypeConstant;
 import com.github.odinggg.newyapiupload.constant.YapiConstant;
 import com.github.odinggg.newyapiupload.dto.YapiApiDTO;
-import com.github.odinggg.newyapiupload.dto.YapiDubboDTO;
 import com.github.odinggg.newyapiupload.dto.YapiResponse;
 import com.github.odinggg.newyapiupload.dto.YapiSaveParam;
 import com.github.odinggg.newyapiupload.upload.UploadYapi;
@@ -65,38 +63,6 @@ public class UploadToYapi extends AnAction {
         }
         // 判断项目类型
         if (ProjectTypeConstant.dubbo.equals(projectType)) {
-            // 获得dubbo需上传的接口列表 参数对象
-            ArrayList<YapiDubboDTO> yapiDubboDTOs = new BuildJsonForDubbo().actionPerformedList(e);
-            if (yapiDubboDTOs != null) {
-                for (YapiDubboDTO yapiDubboDTO : yapiDubboDTOs) {
-                    YapiSaveParam yapiSaveParam = new YapiSaveParam(projectToken, yapiDubboDTO.getTitle(), yapiDubboDTO
-                            .getPath(), yapiDubboDTO.getParams(), yapiDubboDTO.getResponse(), Integer.valueOf(projectId), yapiUrl, yapiDubboDTO
-                            .getDesc());
-                    yapiSaveParam.setStatus(yapiDubboDTO.getStatus());
-                    if (!Strings.isNullOrEmpty(yapiDubboDTO.getMenu())) {
-                        yapiSaveParam.setMenu(yapiDubboDTO.getMenu());
-                    } else {
-                        yapiSaveParam.setMenu(YapiConstant.menu);
-                    }
-                    try {
-                        // 上传
-                        YapiResponse yapiResponse = new UploadYapi().uploadSave(yapiSaveParam, null, project.getBasePath());
-                        if (yapiResponse.getErrcode() != 0) {
-                            Notification error = notificationGroup.createNotification("sorry ,upload api error cause:" + yapiResponse
-                                    .getErrmsg(), NotificationType.ERROR);
-                            Notifications.Bus.notify(error, project);
-                        } else {
-                            String url = yapiUrl + "/project/" + projectId + "/interface/api/cat_" + yapiResponse.getCatId();
-                            this.setClipboard(url);
-                            Notification error = notificationGroup.createNotification("success ,url: " + url, NotificationType.INFORMATION);
-                            Notifications.Bus.notify(error, project);
-                        }
-                    } catch (Exception e1) {
-                        Notification error = notificationGroup.createNotification("sorry ,upload api error cause:" + e1, NotificationType.ERROR);
-                        Notifications.Bus.notify(error, project);
-                    }
-                }
-            }
         } else if (ProjectTypeConstant.api.equals(projectType)) {
             //获得api 需上传的接口列表 参数对象
             ArrayList<YapiApiDTO> yapiApiDTOS = new BuildJsonForYapi().actionPerformedList(e, attachUpload, returnClass);

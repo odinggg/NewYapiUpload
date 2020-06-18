@@ -222,6 +222,28 @@ public class DesUtil {
     }
 
     /**
+     * @description: 获得更新注解
+     * @param: [text]
+     * @return: java.lang.String
+     * @author: Hansen
+     * @date: 2019/5/18
+     */
+    public static String getUpdate(String text) {
+        if (Strings.isNullOrEmpty(text) || !text.contains("*/")) {
+            return null;
+        }
+        String[] menuList = text.split("\\*/")[0].split("@update");
+        if (menuList.length > 1) {
+            return YapiStatusEnum.getStatus(DesUtil.trimFirstAndLastChar(menuList[1].split("\\*")[0].replace("*", "")
+                    .replace(":", "")
+                    .replace("\n", " ")
+                    .replace(" ", ""), ' ').trim());
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * @description: 获得link 备注
      * @param: [remark, project, field]
      * @return: java.lang.String
