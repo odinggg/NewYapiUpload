@@ -21,18 +21,13 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -44,7 +39,7 @@ import java.util.concurrent.Executors;
 public class UploadToYapi extends AnAction {
 
     private static NotificationGroup notificationGroup;
-    public static final CopyOnWriteArrayList<Database> DATABASES = new CopyOnWriteArrayList<>();
+
 
     static {
         notificationGroup = new NotificationGroup("Java2Json.NotificationGroup", NotificationDisplayType.BALLOON, true);
@@ -133,32 +128,12 @@ public class UploadToYapi extends AnAction {
         AppSettingsState instance = AppSettingsState.getInstance();
         if (instance.usePDMCheck) {
             List<Database> databases = PDMUtil.parseDatabase(instance.pdmFilePath);
-            DATABASES.addAll(databases);
+            PDMUtil.DATABASES.addAll(databases);
         }
         if (instance.syncCheck) {
             mainMethod(e);
         } else {
             executorService.submit(() -> mainMethod(e));
         }
-    }
-
-    public static String getDesc(String databaseName, String tableName, String columnName) {
-        if (!CollectionUtils.isEmpty(DATABASES)) {
-            Database.Column result = DATABASES.stream()
-                    .filter(database -> database.getCode().equals(databaseName))
-                    .map(Database::getTables)
-                    .filter(CollectionUtils::isNotEmpty)
-                    .flatMap(Collection::stream)
-                    .filter(table -> table.getCode().equals(tableName))
-                    .map(Database.Table::getColumns)
-                    .filter(CollectionUtils::isNotEmpty)
-                    .flatMap(Collection::stream)
-                    .filter(column -> column.getCode().equals(columnName)).findAny().orElse(null);
-            if (Objects.nonNull(result)) {
-                return (StringUtils.isBlank(result.getName()) ? result.getComment() : result.getName()) + "\t" +
-                        (StringUtils.isNotBlank(result.getListValues()) ? result.getListValues() : "");
-            }
-        }
-        return "";
     }
 }

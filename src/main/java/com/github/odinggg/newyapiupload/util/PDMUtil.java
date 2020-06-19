@@ -5,13 +5,17 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,6 +26,8 @@ import java.util.stream.Stream;
  * @version 2020/6/17
  */
 public class PDMUtil {
+    public static final CopyOnWriteArrayList<Database> DATABASES = new CopyOnWriteArrayList<>();
+
     public static List<Database> parseDatabase(String filePath) {
         Collection<File> pdms = FileUtils.listFiles(new File(filePath), FileFilterUtils.suffixFileFilter("pdm"), TrueFileFilter.INSTANCE);
         if (!CollectionUtils.isEmpty(pdms)) {
@@ -77,6 +83,59 @@ public class PDMUtil {
         List<Node> nodes = node.selectNodes(xpath);
         if (!CollectionUtils.isEmpty(nodes)) {
             return nodes.get(0).getText();
+        }
+        return "";
+    }
+
+    public static String getDesc(String databaseName, String tableName, String columnName) {
+        if (!CollectionUtils.isEmpty(DATABASES)) {
+            Database.Column result = DATABASES.stream()
+                    .filter(database -> database.getCode().equals(databaseName))
+                    .map(Database::getTables)
+                    .filter(CollectionUtils::isNotEmpty)
+                    .flatMap(Collection::stream)
+                    .filter(table -> table.getCode().equals(tableName))
+                    .map(Database.Table::getColumns)
+                    .filter(CollectionUtils::isNotEmpty)
+                    .flatMap(Collection::stream)
+                    .filter(column -> column.getCode().equals(columnName)).findAny().orElse(null);
+            String sb = getString(result);
+            if (sb != null) return sb;
+        }
+        return "";
+    }
+
+    @Nullable
+    private static String getString(Database.Column result) {
+        if (Objects.nonNull(result)) {
+            StringBuilder sb = new StringBuilder();
+            if (StringUtils.isNotBlank(result.getName())) {
+                sb.append(result.getName()).append("\t");
+            }
+            if (StringUtils.isNotBlank(result.getComment())) {
+                sb.append(result.getComment()).append("\t");
+            }
+            if (StringUtils.isNotBlank(result.getListValues())) {
+                sb.append(result.getListValues()).append("\t");
+            }
+            return sb.toString();
+        }
+        return null;
+    }
+
+    public static String getDesc(String tableName, String columnName) {
+        if (!CollectionUtils.isEmpty(DATABASES)) {
+            Database.Column result = DATABASES.stream()
+                    .map(Database::getTables)
+                    .filter(CollectionUtils::isNotEmpty)
+                    .flatMap(Collection::stream)
+                    .filter(table -> table.getCode().equals(tableName))
+                    .map(Database.Table::getColumns)
+                    .filter(CollectionUtils::isNotEmpty)
+                    .flatMap(Collection::stream)
+                    .filter(column -> column.getCode().equals(columnName)).findAny().orElse(null);
+            String sb = getString(result);
+            if (sb != null) return sb;
         }
         return "";
     }
