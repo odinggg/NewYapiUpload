@@ -139,4 +139,8 @@ public class PDMUtil {
         }
         return "";
     }
+
+    public static String className2TableName(String className) {
+        return className.replaceAll("([A-Z])", "\\_$1").toLowerCase().substring(1);
+    }
 }
