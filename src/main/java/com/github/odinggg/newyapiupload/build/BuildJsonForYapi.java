@@ -1,5 +1,6 @@
 package com.github.odinggg.newyapiupload.build;
 
+import com.github.odinggg.newyapiupload.config.AppSettingsState;
 import com.github.odinggg.newyapiupload.constant.HttpMethodConstant;
 import com.github.odinggg.newyapiupload.constant.JavaConstant;
 import com.github.odinggg.newyapiupload.constant.SpringMVCConstant;
@@ -12,6 +13,7 @@ import com.github.odinggg.newyapiupload.upload.UploadYapi;
 import com.github.odinggg.newyapiupload.util.DesUtil;
 import com.github.odinggg.newyapiupload.util.FileToZipUtil;
 import com.github.odinggg.newyapiupload.util.FileUnZipUtil;
+import com.github.odinggg.newyapiupload.util.PDMUtil;
 import com.github.odinggg.newyapiupload.util.PsiAnnotationSearchUtil;
 import com.google.common.base.Strings;
 import com.google.gson.JsonObject;
@@ -34,6 +36,7 @@ import com.intellij.psi.PsiEnumConstant;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiModifier;
 import com.intellij.psi.PsiNameValuePair;
 import com.intellij.psi.PsiParameter;
 import com.intellij.psi.PsiPrimitiveType;
@@ -870,7 +873,7 @@ public class BuildJsonForYapi {
                     Set<String> pNameList = new HashSet<>();
                     pNameList.addAll(pNames);
                     pNameList.add(psiClass.getName());
-                    getField(field, project, kv, childType, index, pNameList);
+                    getField(field, project, kv, childType, index, pNameList, psiClass.getName());
                 }
             } else {
                 if (NormalTypes.genericList.contains(psiClass.getName()) && childType != null && childType.length > index) {
@@ -893,7 +896,7 @@ public class BuildJsonForYapi {
                         Set<String> pNameList = new HashSet<>();
                         pNameList.addAll(pNames);
                         pNameList.add(psiClass.getName());
-                        getField(field, project, kv, childType, index, pNameList);
+                        getField(field, project, kv, childType, index, pNameList, psiClass.getName());
                     }
                 }
             }
@@ -908,8 +911,8 @@ public class BuildJsonForYapi {
      * @author: Hansen
      * @date: 2019/5/15
      */
-    public static void getField(PsiField field, Project project, KV kv, String[] childType, Integer index, Set<String> pNames) {
-        if (field.getModifierList().hasModifierProperty("final")) {
+    public static void getField(PsiField field, Project project, KV kv, String[] childType, Integer index, Set<String> pNames, String className) {
+        if (field.getModifierList().hasModifierProperty(PsiModifier.FINAL)) {
             return;
         }
         PsiType type = field.getType();
@@ -926,7 +929,10 @@ public class BuildJsonForYapi {
             getFilePath(project, filePaths, DesUtil.getFieldLinks(project, field));
         }
 
-
+        // pdm支持
+        if (AppSettingsState.getInstance().usePDMCheck) {
+            remark = PDMUtil.getDesc(PDMUtil.className2TableName(className), name);
+        }
         // 如果是基本类型
         if (type instanceof PsiPrimitiveType) {
             JsonObject jsonObject = new JsonObject();

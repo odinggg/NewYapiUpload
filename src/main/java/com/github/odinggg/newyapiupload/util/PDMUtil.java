@@ -124,7 +124,7 @@ public class PDMUtil {
     }
 
     public static String getDesc(String tableName, String columnName) {
-        if (!CollectionUtils.isEmpty(DATABASES)) {
+        if (!CollectionUtils.isEmpty(DATABASES) && StringUtils.isNotBlank(tableName)) {
             Database.Column result = DATABASES.stream()
                     .map(Database::getTables)
                     .filter(CollectionUtils::isNotEmpty)
