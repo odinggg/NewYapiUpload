@@ -47,7 +47,9 @@ intellij {
 }
 patchPluginXml {
     changeNotes """
-      Add change notes here.<br>
+      1. 添加setting页面的配置页面。<br/>
+      2. 添加pdm解析<br/>
+      3. 添加@update 注解，表示是否自动更新，默认更新<br/>
       <em>most HTML tags may be used</em>"""
 }
 

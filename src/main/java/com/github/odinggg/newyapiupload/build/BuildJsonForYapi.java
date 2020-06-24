@@ -107,7 +107,8 @@ public class BuildJsonForYapi {
             PsiMethod[] psiMethods = selectedClass.getMethods();
             for (PsiMethod psiMethodTarget : psiMethods) {
                 //去除私有方法
-                if (!psiMethodTarget.getModifierList().hasModifierProperty("private") && Objects.nonNull(psiMethodTarget
+                if (!psiMethodTarget.getModifierList()
+                        .hasModifierProperty(PsiModifier.PRIVATE) && Objects.nonNull(psiMethodTarget
                         .getReturnType())) {
                     YapiApiDTO yapiApiDTO = actionPerformed(selectedClass, psiMethodTarget, project, psiFile, attachUpload, returnClass);
                     if (Objects.nonNull(yapiApiDTO)) {
@@ -187,6 +188,10 @@ public class BuildJsonForYapi {
                         if (psiReference == null) {
                             DesUtil.addPath(path, psiNameValuePair.getLiteralValue());
                         } else {
+                            String update = DesUtil.getUpdate(psiReference.resolve().getText());
+                            if (StringUtils.isNotBlank(update) && !Boolean.parseBoolean(update)) {
+                                return null;
+                            }
                             String[] results = psiReference.resolve().getText().split("=");
                             DesUtil.addPath(path, results[results.length - 1].split(";")[0].replace("\"", "").trim());
                             yapiApiDTO.setTitle(DesUtil.getUrlReFerenceRDesc(psiReference.resolve().getText()));
