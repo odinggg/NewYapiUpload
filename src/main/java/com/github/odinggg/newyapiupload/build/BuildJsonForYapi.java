@@ -873,7 +873,7 @@ public class BuildJsonForYapi {
                     Set<String> pNameList = new HashSet<>();
                     pNameList.addAll(pNames);
                     pNameList.add(psiClass.getName());
-                    getField(field, project, kv, childType, index, pNameList, psiClass.getName());
+                    getField(field, project, kv, childType, index, pNameList);
                 }
             } else {
                 if (NormalTypes.genericList.contains(psiClass.getName()) && childType != null && childType.length > index) {
@@ -896,7 +896,7 @@ public class BuildJsonForYapi {
                         Set<String> pNameList = new HashSet<>();
                         pNameList.addAll(pNames);
                         pNameList.add(psiClass.getName());
-                        getField(field, project, kv, childType, index, pNameList, psiClass.getName());
+                        getField(field, project, kv, childType, index, pNameList);
                     }
                 }
             }
@@ -911,7 +911,7 @@ public class BuildJsonForYapi {
      * @author: Hansen
      * @date: 2019/5/15
      */
-    public static void getField(PsiField field, Project project, KV kv, String[] childType, Integer index, Set<String> pNames, String className) {
+    public static void getField(PsiField field, Project project, KV kv, String[] childType, Integer index, Set<String> pNames) {
         if (field.getModifierList().hasModifierProperty(PsiModifier.FINAL)) {
             return;
         }
@@ -931,7 +931,8 @@ public class BuildJsonForYapi {
 
         // pdm支持
         if (AppSettingsState.getInstance().usePDMCheck) {
-            remark = PDMUtil.getDesc(PDMUtil.className2TableName(className), name);
+            PsiClass psiClass = PsiUtil.resolveClassInType(type);
+            remark = PDMUtil.getDesc(PDMUtil.className2TableName(psiClass.getName()), name);
         }
         // 如果是基本类型
         if (type instanceof PsiPrimitiveType) {
