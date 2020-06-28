@@ -47,6 +47,12 @@ public class UploadToYapi extends AnAction {
 
     public void mainMethod(AnActionEvent e) {
         AppSettingsState instance = AppSettingsState.getInstance();
+        if (instance.usePDMCheck && StringUtils.isNotBlank(instance.pdmFilePath)) {
+            List<Database> databases = PDMUtil.parseDatabase(instance.pdmFilePath);
+            PDMUtil.DATABASES.addAll(databases);
+            Notification error = notificationGroup.createNotification("read pdm success:  " + PDMUtil.DATABASES.size(), NotificationType.INFORMATION);
+            Notifications.Bus.notify(error, e.getProject());
+        }
         Editor editor = e.getDataContext().getData(CommonDataKeys.EDITOR);
         Project project = editor.getProject();
         String projectToken = instance.projectToken;
@@ -123,14 +129,6 @@ public class UploadToYapi extends AnAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         AppSettingsState instance = AppSettingsState.getInstance();
-        if (instance.usePDMCheck && StringUtils.isNotBlank(instance.pdmFilePath)) {
-            Notification error1 = notificationGroup.createNotification("read pdm path success:  " + instance.pdmFilePath, NotificationType.INFORMATION);
-            Notifications.Bus.notify(error1, e.getProject());
-            List<Database> databases = PDMUtil.parseDatabase(instance.pdmFilePath);
-            PDMUtil.DATABASES.addAll(databases);
-            Notification error = notificationGroup.createNotification("read pdm success:  " + PDMUtil.DATABASES.size(), NotificationType.INFORMATION);
-            Notifications.Bus.notify(error, e.getProject());
-        }
         if (instance.syncCheck) {
             mainMethod(e);
         } else {
