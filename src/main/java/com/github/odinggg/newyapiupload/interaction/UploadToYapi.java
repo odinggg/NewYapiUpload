@@ -22,6 +22,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -122,7 +123,9 @@ public class UploadToYapi extends AnAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         AppSettingsState instance = AppSettingsState.getInstance();
-        if (instance.usePDMCheck) {
+        if (instance.usePDMCheck && StringUtils.isNotBlank(instance.pdmFilePath)) {
+            Notification error1 = notificationGroup.createNotification("read pdm path success:  " + instance.pdmFilePath, NotificationType.INFORMATION);
+            Notifications.Bus.notify(error1, e.getProject());
             List<Database> databases = PDMUtil.parseDatabase(instance.pdmFilePath);
             PDMUtil.DATABASES.addAll(databases);
             Notification error = notificationGroup.createNotification("read pdm success:  " + PDMUtil.DATABASES.size(), NotificationType.INFORMATION);

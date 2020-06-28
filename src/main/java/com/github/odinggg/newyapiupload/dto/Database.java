@@ -28,7 +28,11 @@ public class Database {
         }
 
         public void setName(String name) {
-            this.name = name;
+            if (this.name != null) {
+                this.name += name;
+            } else {
+                this.name = name;
+            }
         }
 
         public String getCode() {
@@ -36,7 +40,11 @@ public class Database {
         }
 
         public void setCode(String code) {
-            this.code = code;
+            if (this.code != null) {
+                this.code += code;
+            } else {
+                this.code = code;
+            }
         }
 
         public List<Column> getColumns() {
@@ -68,7 +76,11 @@ public class Database {
         }
 
         public void setName(String name) {
-            this.name = name;
+            if (this.name != null) {
+                this.name += name;
+            } else {
+                this.name = name;
+            }
         }
 
         public String getCode() {
@@ -76,7 +88,11 @@ public class Database {
         }
 
         public void setCode(String code) {
-            this.code = code;
+            if (this.code != null) {
+                this.code += code;
+            } else {
+                this.code = code;
+            }
         }
 
         public String getComment() {
@@ -84,7 +100,11 @@ public class Database {
         }
 
         public void setComment(String comment) {
-            this.comment = comment;
+            if (this.comment != null) {
+                this.comment += comment;
+            } else {
+                this.comment = comment;
+            }
         }
 
         public Boolean getMandatory() {
@@ -100,7 +120,11 @@ public class Database {
         }
 
         public void setType(String type) {
-            this.type = type;
+            if (this.type != null) {
+                this.type += type;
+            } else {
+                this.type = type;
+            }
         }
 
         public String getDefaultValue() {
@@ -108,7 +132,11 @@ public class Database {
         }
 
         public void setDefaultValue(String defaultValue) {
-            this.defaultValue = defaultValue;
+            if (this.defaultValue != null) {
+                this.defaultValue += defaultValue;
+            } else {
+                this.defaultValue = defaultValue;
+            }
         }
 
         public String getListValues() {
@@ -116,7 +144,15 @@ public class Database {
         }
 
         public void setListValues(String listValues) {
-            this.listValues = listValues;
+            if (this.listValues != null) {
+                this.listValues += listValues;
+            } else {
+                if (this.listValues != null) {
+                    this.listValues += listValues;
+                } else {
+                    this.listValues = listValues;
+                }
+            }
         }
     }
 
@@ -125,7 +161,11 @@ public class Database {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (this.name != null) {
+            this.name += name;
+        } else {
+            this.name = name;
+        }
     }
 
     public String getCode() {
@@ -133,7 +173,11 @@ public class Database {
     }
 
     public void setCode(String code) {
-        this.code = code;
+        if (this.code != null) {
+            this.code += code;
+        } else {
+            this.code = code;
+        }
     }
 
     public List<Table> getTables() {
