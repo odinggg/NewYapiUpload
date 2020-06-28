@@ -19,6 +19,7 @@ import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
@@ -28,8 +29,6 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @description: 入口
@@ -44,9 +43,6 @@ public class UploadToYapi extends AnAction {
     static {
         notificationGroup = new NotificationGroup("Java2Json.NotificationGroup", NotificationDisplayType.BALLOON, true);
     }
-
-    private static final ExecutorService executorService = Executors.newFixedThreadPool(3);
-
 
     public void mainMethod(AnActionEvent e) {
         AppSettingsState instance = AppSettingsState.getInstance();
@@ -133,7 +129,7 @@ public class UploadToYapi extends AnAction {
         if (instance.syncCheck) {
             mainMethod(e);
         } else {
-            executorService.submit(() -> mainMethod(e));
+            ApplicationManager.getApplication().runReadAction(() -> mainMethod(e));
         }
     }
 }
