@@ -228,13 +228,13 @@ public class DesUtil {
      * @author: Hansen
      * @date: 2019/5/18
      */
-    public static String getUpdate(String text) {
+    public static Boolean getUpdate(String text) {
         if (Strings.isNullOrEmpty(text) || !text.contains("*/")) {
             return null;
         }
         String[] menuList = text.split("\\*/")[0].split("@update");
         if (menuList.length > 1) {
-            return YapiStatusEnum.getStatus(DesUtil.trimFirstAndLastChar(menuList[1].split("\\*")[0].replace("*", "")
+            return Boolean.parseBoolean(DesUtil.trimFirstAndLastChar(menuList[1].split("\\*")[0].replace("*", "")
                     .replace(":", "")
                     .replace("\n", " ")
                     .replace(" ", ""), ' ').trim());

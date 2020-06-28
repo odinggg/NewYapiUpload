@@ -188,8 +188,8 @@ public class BuildJsonForYapi {
                         if (psiReference == null) {
                             DesUtil.addPath(path, psiNameValuePair.getLiteralValue());
                         } else {
-                            String update = DesUtil.getUpdate(psiReference.resolve().getText());
-                            if (StringUtils.isNotBlank(update) && !Boolean.parseBoolean(update)) {
+                            Boolean update = DesUtil.getUpdate(psiReference.resolve().getText());
+                            if (update != null && !update) {
                                 return null;
                             }
                             String[] results = psiReference.resolve().getText().split("=");
@@ -269,6 +269,10 @@ public class BuildJsonForYapi {
                             if (psiReference == null) {
                                 DesUtil.addPath(path, psiNameValuePair.getLiteralValue());
                             } else {
+                                Boolean update = DesUtil.getUpdate(psiReference.resolve().getText());
+                                if (update != null && !update) {
+                                    return null;
+                                }
                                 String[] results = psiReference.resolve().getText().split("=");
                                 DesUtil.addPath(path, results[results.length - 1].split(";")[0].replace("\"", "")
                                         .trim());
@@ -356,6 +360,10 @@ public class BuildJsonForYapi {
             if (Strings.isNullOrEmpty(yapiApiDTO.getTitle())) {
                 yapiApiDTO.setTitle(DesUtil.getDescription(psiMethodTarget));
                 if (Objects.nonNull(psiMethodTarget.getDocComment())) {
+                    Boolean update = DesUtil.getUpdate(psiMethodTarget.getDocComment().getText());
+                    if (update != null && !update) {
+                        return null;
+                    }
                     // 支持菜单
                     String menu = DesUtil.getMenu(psiMethodTarget.getDocComment().getText());
                     if (!Strings.isNullOrEmpty(menu)) {
@@ -878,7 +886,7 @@ public class BuildJsonForYapi {
                     Set<String> pNameList = new HashSet<>();
                     pNameList.addAll(pNames);
                     pNameList.add(psiClass.getName());
-                    getField(field, project, kv, childType, index, pNameList);
+                    getField(field, project, kv, childType, index, pNameList, psiClass.getName());
                 }
             } else {
                 if (NormalTypes.genericList.contains(psiClass.getName()) && childType != null && childType.length > index) {
@@ -901,7 +909,7 @@ public class BuildJsonForYapi {
                         Set<String> pNameList = new HashSet<>();
                         pNameList.addAll(pNames);
                         pNameList.add(psiClass.getName());
-                        getField(field, project, kv, childType, index, pNameList);
+                        getField(field, project, kv, childType, index, pNameList, psiClass.getName());
                     }
                 }
             }
@@ -916,7 +924,7 @@ public class BuildJsonForYapi {
      * @author: Hansen
      * @date: 2019/5/15
      */
-    public static void getField(PsiField field, Project project, KV kv, String[] childType, Integer index, Set<String> pNames) {
+    public static void getField(PsiField field, Project project, KV kv, String[] childType, Integer index, Set<String> pNames, String className) {
         if (field.getModifierList().hasModifierProperty(PsiModifier.FINAL)) {
             return;
         }
@@ -936,8 +944,7 @@ public class BuildJsonForYapi {
 
         // pdm支持
         if (AppSettingsState.getInstance().usePDMCheck) {
-            PsiClass psiClass = PsiUtil.resolveClassInType(type);
-            remark = PDMUtil.getDesc(PDMUtil.className2TableName(psiClass != null ? psiClass.getName() : ""), name);
+            remark = PDMUtil.getDesc(PDMUtil.className2TableName(StringUtils.isNotBlank(className) ? className : ""), name);
         }
         // 如果是基本类型
         if (type instanceof PsiPrimitiveType) {
