@@ -110,6 +110,13 @@ public class PDMUtil {
         return className.replaceAll("([A-Z])", "\\_$1").toLowerCase().substring(1);
     }
 
+    public static String paramName2TableName(String className) {
+        if (StringUtils.isBlank(className)) {
+            return "";
+        }
+        return className.replaceAll("([A-Z])", "\\_$1").toLowerCase();
+    }
+
     public static class PDMXMLHandler extends DefaultHandler {
         private Database database;
         private String preTag;
