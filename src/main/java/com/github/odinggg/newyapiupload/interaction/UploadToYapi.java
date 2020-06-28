@@ -125,6 +125,8 @@ public class UploadToYapi extends AnAction {
         if (instance.usePDMCheck) {
             List<Database> databases = PDMUtil.parseDatabase(instance.pdmFilePath);
             PDMUtil.DATABASES.addAll(databases);
+            Notification error = notificationGroup.createNotification("read pdm success:  " + PDMUtil.DATABASES.size(), NotificationType.INFORMATION);
+            Notifications.Bus.notify(error, e.getProject());
         }
         if (instance.syncCheck) {
             mainMethod(e);
