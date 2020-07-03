@@ -939,6 +939,11 @@ public class BuildJsonForYapi {
             }
             //获得link 备注
             remark = DesUtil.getLinkRemark(remark, project, field);
+            boolean ignore = DesUtil.getIgnore(field.getDocComment().getText());
+            // 判断是否是忽略字段
+            if (ignore) {
+                return;
+            }
             getFilePath(project, filePaths, DesUtil.getFieldLinks(project, field));
         }
 

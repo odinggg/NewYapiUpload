@@ -244,6 +244,20 @@ public class DesUtil {
     }
 
     /**
+     * @description: 获得忽略注解
+     * @param: [text]
+     * @return: java.lang.String
+     * @author: Hansen
+     * @date: 2019/5/18
+     */
+    public static boolean getIgnore(String text) {
+        if (Strings.isNullOrEmpty(text) || !text.contains("*/")) {
+            return false;
+        }
+        return text.contains("@ignore");
+    }
+
+    /**
      * @description: 获得link 备注
      * @param: [remark, project, field]
      * @return: java.lang.String
