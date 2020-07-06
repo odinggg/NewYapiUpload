@@ -949,9 +949,14 @@ public class BuildJsonForYapi {
 
         // pdm支持
         if (AppSettingsState.getInstance().usePDMCheck) {
+            String desc = PDMUtil.getDesc(PDMUtil.className2TableName(StringUtils.isNotBlank(className) ? className : ""), PDMUtil
+                    .paramName2TableName(StringUtils.isNotBlank(name) ? name : ""));
             if (StringUtils.isBlank(remark)) {
-                remark = PDMUtil.getDesc(PDMUtil.className2TableName(StringUtils.isNotBlank(className) ? className : ""), PDMUtil
-                        .paramName2TableName(StringUtils.isNotBlank(name) ? name : ""));
+                remark = desc;
+            } else {
+                if (StringUtils.isNotBlank(desc)) {
+                    remark += desc;
+                }
             }
         }
         // 如果是基本类型
