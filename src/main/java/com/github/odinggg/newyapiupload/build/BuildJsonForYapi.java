@@ -85,13 +85,18 @@ public class BuildJsonForYapi {
      * @param e
      * @return
      */
-    public ArrayList<YapiApiDTO> actionPerformedList(AnActionEvent e, String attachUpload, String returnClass) {
+    public ArrayList<YapiApiDTO> actionPerformedList(AnActionEvent e, String attachUpload, String returnClass, PsiClass psiClass) {
         Editor editor = e.getDataContext().getData(CommonDataKeys.EDITOR);
         PsiFile psiFile = e.getDataContext().getData(CommonDataKeys.PSI_FILE);
         String selectedText = e.getRequiredData(CommonDataKeys.EDITOR).getSelectionModel().getSelectedText();
         Project project = editor.getProject();
         PsiElement referenceAt = psiFile.findElementAt(editor.getCaretModel().getOffset());
-        PsiClass selectedClass = (PsiClass) PsiTreeUtil.getContextOfType(referenceAt, new Class[]{PsiClass.class});
+        PsiClass selectedClass;
+        if (psiClass == null) {
+            selectedClass = (PsiClass) PsiTreeUtil.getContextOfType(referenceAt, new Class[]{PsiClass.class});
+        } else {
+            selectedClass = psiClass;
+        }
         String classMenu = null;
         if (Objects.nonNull(selectedClass.getContext())) {
             classMenu = DesUtil.getMenu(selectedClass.getContext().getText().replace(selectedClass.getText(), ""));
