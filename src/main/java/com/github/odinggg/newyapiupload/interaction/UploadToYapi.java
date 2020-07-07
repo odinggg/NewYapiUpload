@@ -11,6 +11,8 @@ import com.github.odinggg.newyapiupload.dto.YapiSaveParam;
 import com.github.odinggg.newyapiupload.upload.UploadYapi;
 import com.github.odinggg.newyapiupload.util.PDMUtil;
 import com.google.common.base.Strings;
+import com.intellij.ide.projectView.ProjectView;
+import com.intellij.ide.projectView.impl.AbstractProjectViewPane;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationDisplayType;
 import com.intellij.notification.NotificationGroup;
@@ -53,11 +55,15 @@ public class UploadToYapi extends AnAction {
 
     public void mainMethod(AnActionEvent e) {
         AppSettingsState instance = AppSettingsState.getInstance();
+        Project project = e.getProject();
+        if (project == null) {
+            return;
+        }
         if (instance.usePDMCheck && StringUtils.isNotBlank(instance.pdmFilePath)) {
             List<Database> databases = PDMUtil.parseDatabase(instance.pdmFilePath);
             PDMUtil.DATABASES.addAll(databases);
             Notification error = notificationGroup.createNotification("read pdm success:  " + PDMUtil.DATABASES.size(), NotificationType.INFORMATION);
-            Notifications.Bus.notify(error, e.getProject());
+            Notifications.Bus.notify(error, project);
         }
         Editor editor = e.getDataContext().getData(CommonDataKeys.EDITOR);
         List<@NotNull PsiClass> collect = null;
@@ -66,28 +72,31 @@ public class UploadToYapi extends AnAction {
             if (psiElement != null) {
                 @NotNull PsiElement[] children = psiElement.getChildren();
                 if (children != null) {
-                    collect = Stream.of(children)
-                            .map(PsiElement::getContainingFile)
-                            .flatMap(psiFile -> {
-                                if (psiFile instanceof PsiJavaFileImpl) {
-                                    return Stream.of(((PsiJavaFileImpl) psiFile).getClasses());
-                                } else {
-                                    return Stream.empty();
-                                }
-                            })
-                            .collect(Collectors.toList());
+                    collect = getPsiClasses(children);
                 } else {
                     Notification error = notificationGroup.createNotification("请选择正确的包路径", NotificationType.ERROR);
-                    Notifications.Bus.notify(error, e.getProject());
+                    Notifications.Bus.notify(error, project);
                     return;
                 }
             } else {
-                Notification error = notificationGroup.createNotification("请选择正确的包路径", NotificationType.ERROR);
-                Notifications.Bus.notify(error, e.getProject());
-                return;
+                AbstractProjectViewPane viewPane = ProjectView.getInstance(project)
+                        .getCurrentProjectViewPane();
+                if (viewPane != null) {
+                    @NotNull PsiElement[] psiElements = viewPane.getSelectedPSIElements();
+                    if (psiElements != null) {
+                        collect = getPsiClasses(psiElements);
+                    } else {
+                        Notification error = notificationGroup.createNotification("请选择正确的类文件", NotificationType.ERROR);
+                        Notifications.Bus.notify(error, project);
+                        return;
+                    }
+                } else {
+                    Notification error = notificationGroup.createNotification("请选择正确的类文件", NotificationType.ERROR);
+                    Notifications.Bus.notify(error, project);
+                    return;
+                }
             }
         }
-        Project project = editor.getProject();
         String projectToken = instance.projectToken;
         String projectId = instance.projectId;
         String yapiUrl = instance.yapiUrl;
@@ -110,6 +119,22 @@ public class UploadToYapi extends AnAction {
                 sendYapi(e, project, projectToken, projectId, yapiUrl, returnClass, attachUpload, null);
             }
         }
+    }
+
+    @NotNull
+    private List<@NotNull PsiClass> getPsiClasses(@NotNull PsiElement[] children) {
+        List<@NotNull PsiClass> collect;
+        collect = Stream.of(children)
+                .map(PsiElement::getContainingFile)
+                .flatMap(psiFile -> {
+                    if (psiFile instanceof PsiJavaFileImpl) {
+                        return Stream.of(((PsiJavaFileImpl) psiFile).getClasses());
+                    } else {
+                        return Stream.empty();
+                    }
+                })
+                .collect(Collectors.toList());
+        return collect;
     }
 
     private void sendYapi(AnActionEvent e, Project project, String projectToken, String projectId, String yapiUrl, String returnClass, String attachUpload, PsiClass psiClass) {

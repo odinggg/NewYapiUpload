@@ -86,13 +86,16 @@ public class BuildJsonForYapi {
      * @return
      */
     public ArrayList<YapiApiDTO> actionPerformedList(AnActionEvent e, String attachUpload, String returnClass, PsiClass psiClass) {
-        Editor editor = e.getDataContext().getData(CommonDataKeys.EDITOR);
-        PsiFile psiFile = e.getDataContext().getData(CommonDataKeys.PSI_FILE);
-        String selectedText = e.getRequiredData(CommonDataKeys.EDITOR).getSelectionModel().getSelectedText();
-        Project project = editor.getProject();
-        PsiElement referenceAt = psiFile.findElementAt(editor.getCaretModel().getOffset());
+
+        String selectedText = null;
+        Project project = e.getProject();
+
         PsiClass selectedClass;
         if (psiClass == null) {
+            selectedText = e.getRequiredData(CommonDataKeys.EDITOR).getSelectionModel().getSelectedText();
+            Editor editor = e.getDataContext().getData(CommonDataKeys.EDITOR);
+            PsiFile psiFile = e.getDataContext().getData(CommonDataKeys.PSI_FILE);
+            PsiElement referenceAt = psiFile.findElementAt(editor.getCaretModel().getOffset());
             selectedClass = (PsiClass) PsiTreeUtil.getContextOfType(referenceAt, new Class[]{PsiClass.class});
         } else {
             selectedClass = psiClass;
@@ -115,7 +118,7 @@ public class BuildJsonForYapi {
                 if (!psiMethodTarget.getModifierList()
                         .hasModifierProperty(PsiModifier.PRIVATE) && Objects.nonNull(psiMethodTarget
                         .getReturnType())) {
-                    YapiApiDTO yapiApiDTO = actionPerformed(selectedClass, psiMethodTarget, project, psiFile, attachUpload, returnClass);
+                    YapiApiDTO yapiApiDTO = actionPerformed(selectedClass, psiMethodTarget, project, attachUpload, returnClass);
                     if (Objects.nonNull(yapiApiDTO)) {
                         if (Objects.isNull(yapiApiDTO.getMenu())) {
                             yapiApiDTO.setMenu(classMenu);
@@ -135,7 +138,7 @@ public class BuildJsonForYapi {
                 }
             }
             if (Objects.nonNull(psiMethodTarget)) {
-                YapiApiDTO yapiApiDTO = actionPerformed(selectedClass, psiMethodTarget, project, psiFile, attachUpload, returnClass);
+                YapiApiDTO yapiApiDTO = actionPerformed(selectedClass, psiMethodTarget, project, attachUpload, returnClass);
                 if (Objects.nonNull(yapiApiDTO)) {
                     if (Objects.isNull(yapiApiDTO.getMenu())) {
                         yapiApiDTO.setMenu(classMenu);
@@ -152,7 +155,7 @@ public class BuildJsonForYapi {
     }
 
 
-    public static YapiApiDTO actionPerformed(PsiClass selectedClass, PsiMethod psiMethodTarget, Project project, PsiFile psiFile, String attachUpload, String returnClass) {
+    public static YapiApiDTO actionPerformed(PsiClass selectedClass, PsiMethod psiMethodTarget, Project project, String attachUpload, String returnClass) {
         YapiApiDTO yapiApiDTO = new YapiApiDTO();
         // 获得路径
         StringBuilder path = new StringBuilder();
