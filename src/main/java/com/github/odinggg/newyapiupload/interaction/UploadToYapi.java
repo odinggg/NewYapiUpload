@@ -19,9 +19,13 @@ import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.util.PsiTreeUtil;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,6 +34,9 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @description: 入口
@@ -54,6 +61,34 @@ public class UploadToYapi extends AnAction {
             Notifications.Bus.notify(error, e.getProject());
         }
         Editor editor = e.getDataContext().getData(CommonDataKeys.EDITOR);
+        if (editor == null) {
+            PsiElement psiElement = e.getData(LangDataKeys.PSI_ELEMENT);
+            if (psiElement != null) {
+                @NotNull PsiElement[] children = psiElement.getChildren();
+                if (children != null) {
+                    List<PsiClass> collect = Stream.of(children)
+                            .map(psiElement1 -> PsiTreeUtil.getContextOfType(psiElement1, PsiClass.class))
+                            .filter(Objects::nonNull)
+                            .collect(Collectors.toList());
+//                    FileChooserDescriptor singleFileDescriptor = FileChooserDescriptorFactory.createMultipleJavaPathDescriptor();
+//                    Component data = e.getDataContext().getData(PlatformDataKeys.CONTEXT_COMPONENT);
+//                    VirtualFile virtualFile = PsiUtil.getVirtualFile(psiElement);
+//                    PsiFile psiFile = PsiManager.getInstance(e.getProject()).findFile(virtualFile);
+//                    ArrayList<VirtualFile> files = new ArrayList<>();
+//                    Consumer<? super List<VirtualFile>> callback = (Consumer<List<VirtualFile>>) files::addAll;
+//                    FileChooser.chooseFiles(singleFileDescriptor, e.getProject(), data, virtualFile, callback);
+//                    System.out.println(files.size());
+                } else {
+                    Notification error = notificationGroup.createNotification("请选择正确的包路径", NotificationType.ERROR);
+                    Notifications.Bus.notify(error, e.getProject());
+                    return;
+                }
+            } else {
+                Notification error = notificationGroup.createNotification("请选择正确的包路径", NotificationType.ERROR);
+                Notifications.Bus.notify(error, e.getProject());
+                return;
+            }
+        }
         Project project = editor.getProject();
         String projectToken = instance.projectToken;
         String projectId = instance.projectId;
