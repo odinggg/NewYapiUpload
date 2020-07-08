@@ -146,13 +146,13 @@ public class UploadYapi {
                                 .substring(0, yapiInterfaceResponse.getDesc()
                                         .indexOf("java类")) + yapiSaveParam.getDesc() + yapiInterfaceResponse.getDesc()
                                 .substring(yapiInterfaceResponse.getDesc()
-                                        .indexOf("</pre>"), yapiInterfaceResponse.getDesc().length()));
+                                        .indexOf("</pre>")));
                     } else {
                         yapiSaveParam.setDesc(yapiInterfaceResponse.getDesc()
                                 .substring(0, yapiInterfaceResponse.getDesc()
                                         .indexOf("<pre>")) + yapiSaveParam.getDesc() + yapiInterfaceResponse.getDesc()
                                 .substring(yapiInterfaceResponse.getDesc()
-                                        .indexOf("</pre>"), yapiInterfaceResponse.getDesc().length()));
+                                        .indexOf("</pre>")));
                     }
                 }
                 if (Objects.nonNull(yapiInterfaceResponse.getCatid())) {
@@ -190,7 +190,7 @@ public class UploadYapi {
                 // 循环多级菜单，判断是否存在，如果不存在就创建
                 //  解决多级菜单创建问题
                 Integer parent_id = -1;
-                Integer now_id = null;
+                Integer now_id;
                 for (int i = 0; i < menus.length; i++) {
                     if (Strings.isNullOrEmpty(menus[i])) {
                         continue;
