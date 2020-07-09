@@ -23,7 +23,7 @@ apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'java'
 
 group 'com.github.odinggg'
-version '1.0-SNAPSHOT'
+version '1.00'
 
 repositories {
     mavenCentral()
@@ -49,9 +49,9 @@ intellij {
 }
 patchPluginXml {
     changeNotes """
-      1. 添加setting页面的配置页面。<br/>
-      2. 添加pdm解析<br/>
-      3. 添加@update 注解，表示是否自动更新，默认更新<br/>
-      <em>most HTML tags may be used</em>"""
+     1. 增添配置页面。<br/>
+     2. 添加@ignore注解来忽略指定字段。<br/>
+     3. 添加@update注解来避免重复更新。<br/>
+     4. 结合powerDesigner导出的pdm文件解析数据库字段并与实体字段做匹配。<br/>"""
 }
 
