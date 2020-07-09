@@ -10,6 +10,7 @@
      2. 添加@ignore注解来忽略指定字段。<br/>
      3. 添加@update注解来避免重复更新。<br/>
      4. 结合powerDesigner导出的pdm文件解析数据库字段并与实体字段做匹配。<br/>
+     5. 同步上传改为异步。<br/>
     ]]></description>
 
     <change-notes>
