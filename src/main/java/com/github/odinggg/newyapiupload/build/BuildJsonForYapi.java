@@ -51,6 +51,7 @@ import com.intellij.psi.util.PsiUtil;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jettison.json.JSONException;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -312,8 +313,11 @@ public class BuildJsonForYapi {
             filePaths.clear();
             // 生成响应参数
             yapiApiDTO.setResponse(getResponse(project, psiMethodTarget.getReturnType(), returnClass));
-            Set<String> codeSet = new HashSet<>();
+            HashMap<String, ByteArrayOutputStream> map = new HashMap<>();
             Long time = System.currentTimeMillis();
+            ByteArrayOutputStream requestByteArray = new ByteArrayOutputStream();
+            ByteArrayOutputStream responseByteArray = new ByteArrayOutputStream();
+            ByteArrayOutputStream codeByteArray = new ByteArrayOutputStream();
             String responseFileName = "/response_" + time + ".zip";
             String requestFileName = "/request_" + time + ".zip";
             String codeFileName = "/code_" + time + ".zip";
@@ -321,9 +325,9 @@ public class BuildJsonForYapi {
                 // 打包响应参数文件
                 if (filePaths.size() > 0) {
                     changeFilePath(project);
-                    FileToZipUtil.toZip(filePaths, project.getBasePath() + responseFileName, true);
+                    FileToZipUtil.toZip(filePaths, responseByteArray, true);
                     filePaths.clear();
-                    codeSet.add(project.getBasePath() + responseFileName);
+                    map.put(responseFileName, responseByteArray);
                 }
                 // 清空路径
                 // 生成请求参数
@@ -334,15 +338,15 @@ public class BuildJsonForYapi {
             if (!Strings.isNullOrEmpty(attachUpload)) {
                 if (filePaths.size() > 0) {
                     changeFilePath(project);
-                    FileToZipUtil.toZip(filePaths, project.getBasePath() + requestFileName, true);
+                    FileToZipUtil.toZip(filePaths, requestByteArray, true);
                     filePaths.clear();
-                    codeSet.add(project.getBasePath() + requestFileName);
+                    map.put(requestFileName, requestByteArray);
                 }
                 // 打包请求参数文件
-                if (codeSet.size() > 0) {
-                    FileToZipUtil.toZip(codeSet, project.getBasePath() + codeFileName, true);
+                if (map.size() > 0) {
+                    FileToZipUtil.toZip(map, codeByteArray, true);
                     if (!Strings.isNullOrEmpty(attachUpload)) {
-                        String fileUrl = new UploadYapi().uploadFile(attachUpload, project.getBasePath() + codeFileName);
+                        String fileUrl = new UploadYapi().uploadFile(attachUpload, codeByteArray, codeFileName);
                         if (!Strings.isNullOrEmpty(fileUrl)) {
                             yapiApiDTO.setDesc("java类:<a href='" + fileUrl + "'>下载地址</a><br/>" + yapiApiDTO.getDesc());
                         }
@@ -351,19 +355,6 @@ public class BuildJsonForYapi {
             } else {
                 filePaths.clear();
             }
-            //清空打包文件
-            if (!Strings.isNullOrEmpty(attachUpload)) {
-                File file = new File(project.getBasePath() + codeFileName);
-                if (file.exists() && file.isFile()) {
-                    file.delete();
-                    file = new File(project.getBasePath() + responseFileName);
-                    file.delete();
-                    file = new File(project.getBasePath() + requestFileName);
-                    file.delete();
-                }
-                // 移除 文件
-            }
-
             // 清空路径
             if (Strings.isNullOrEmpty(yapiApiDTO.getTitle())) {
                 yapiApiDTO.setTitle(DesUtil.getDescription(psiMethodTarget));

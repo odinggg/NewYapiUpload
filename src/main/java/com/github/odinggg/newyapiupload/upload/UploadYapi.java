@@ -16,9 +16,10 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.InputStreamBody;
 
-import java.io.File;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,12 +103,12 @@ public class UploadYapi {
      * @author: Hansen
      * @date: 2019/5/15
      */
-    public String uploadFile(String url, String filePath) {
+    public String uploadFile(String url, ByteArrayOutputStream filePath, String codeName) {
         HttpPost httpPost = null;
         try {
             httpPost = new HttpPost(url);
-            FileBody bin = new FileBody(new File(filePath));
-            HttpEntity reqEntity = MultipartEntityBuilder.create().addPart("file", bin).build();
+            InputStreamBody inputStreamBody = new InputStreamBody(new ByteArrayInputStream(filePath.toByteArray()), codeName);
+            HttpEntity reqEntity = MultipartEntityBuilder.create().addPart("file", inputStreamBody).build();
             httpPost.setEntity(reqEntity);
             return HttpClientUtil.ObjectToString(HttpClientUtil.getHttpclient().execute(httpPost), "utf-8");
         } catch (Exception e) {

@@ -1,12 +1,12 @@
 package com.github.odinggg.newyapiupload.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -28,21 +28,53 @@ public class FileToZipUtil {
      *                         false:所有文件跑到压缩包根目录下(注意：不保留目录结构可能会出现同名文件,会压缩失败)
      * @throws RuntimeException 压缩失败会抛出运行时异常
      */
-    public static void toZip(Set<String> srcDir, String outDir,
+    public static void toZip(Set<String> srcDir, ByteArrayOutputStream outDir,
                              boolean KeepDirStructure) throws RuntimeException, Exception {
 
-        OutputStream out = new FileOutputStream(new File(outDir));
 
         long start = System.currentTimeMillis();
         ZipOutputStream zos = null;
         try {
-            zos = new ZipOutputStream(out);
+            zos = new ZipOutputStream(outDir);
             List<File> sourceFileList = new ArrayList<File>();
             for (String dir : srcDir) {
                 File sourceFile = new File(dir);
                 sourceFileList.add(sourceFile);
             }
             compress(sourceFileList, zos, KeepDirStructure);
+            long end = System.currentTimeMillis();
+            System.out.println("压缩完成，耗时：" + (end - start) + " ms");
+        } catch (Exception e) {
+            throw new RuntimeException("zip error from ZipUtils", e);
+        } finally {
+            if (zos != null) {
+                try {
+                    zos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    public static void toZip(Map<String, ByteArrayOutputStream> srcDir, ByteArrayOutputStream outDir,
+                             boolean KeepDirStructure) throws RuntimeException, Exception {
+
+        long start = System.currentTimeMillis();
+        ZipOutputStream zos = null;
+        try {
+            zos = new ZipOutputStream(outDir);
+            ZipOutputStream finalZos = zos;
+            srcDir.forEach((s, byteArrayOutputStream) -> {
+                try {
+                    finalZos.putNextEntry(new ZipEntry(s));
+                    finalZos.write(byteArrayOutputStream.toByteArray());
+                    finalZos.closeEntry();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
             long end = System.currentTimeMillis();
             System.out.println("压缩完成，耗时：" + (end - start) + " ms");
         } catch (Exception e) {
