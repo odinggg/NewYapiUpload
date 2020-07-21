@@ -2,7 +2,7 @@
     <id>com.github.odinggg.NewYapiUpload</id>
     <name>NewYapiUpload</name>
     <version>1.00</version>
-    <vendor email="qinhaochun@aliyun.com" url="https://github.com/odinggg">NewYapiUpload</vendor>
+    <vendor email="qinhaochun@aliyun.com" url="https://github.com/odinggg/NewYapiUpload">NewYapiUpload</vendor>
 
     <description><![CDATA[
      扩展增强yapiUpload插件的功能。主要有以下几点增强：<br/>
