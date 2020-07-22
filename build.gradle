@@ -23,7 +23,7 @@ apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'java'
 
 group 'com.github.odinggg'
-version '1.01'
+version '1.02'
 
 repositories {
     mavenCentral()
