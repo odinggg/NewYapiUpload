@@ -23,7 +23,7 @@ apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'java'
 
 group 'com.github.odinggg'
-version '1.00'
+version '1.01'
 
 repositories {
     mavenCentral()
@@ -52,6 +52,11 @@ patchPluginXml {
      1. 增添配置页面。<br/>
      2. 添加@ignore注解来忽略指定字段。<br/>
      3. 添加@update注解来避免重复更新。<br/>
-     4. 结合powerDesigner导出的pdm文件解析数据库字段并与实体字段做匹配。<br/>"""
+     4. 结合powerDesigner导出的pdm文件解析数据库字段并与实体字段做匹配。<br/>
+     <hr/>
+     1. Add configuration page. <br/>
+     2. Add @ignore annotation to ignore the specified field. <br/>
+     3. Add @update annotation to avoid repeated updates. <br/>
+     4. Combine the pdm file exported by powerDesigner to parse the database fields and match the entity fields."""
 }
 
