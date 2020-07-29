@@ -1,0 +1,67 @@
+<svg width="81" height="80" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient y2="49.963%" y1="49.963%" x2="100.053%" x1="-.031%" id="pluginsdk_80-a">
+   <stop stop-color="#F97A12" offset="25.81%"/>
+   <stop stop-color="#B07B58" offset="45.91%"/>
+   <stop stop-color="#577BAE" offset="72.41%"/>
+   <stop stop-color="#1E7CE5" offset="91.05%"/>
+   <stop stop-color="#087CFA" offset="100%"/>
+  </linearGradient>
+  <linearGradient y2="77.605%" y1="34.514%" x2="82.223%" x1="27.55%" id="pluginsdk_80-b">
+   <stop stop-color="#F97A12" offset="0%"/>
+   <stop stop-color="#CB7A3E" offset="7.18%"/>
+   <stop stop-color="#9E7B6A" offset="15.41%"/>
+   <stop stop-color="#757B91" offset="24.2%"/>
+   <stop stop-color="#537BB1" offset="33.44%"/>
+   <stop stop-color="#387CCC" offset="43.24%"/>
+   <stop stop-color="#237CE0" offset="53.81%"/>
+   <stop stop-color="#147CEF" offset="65.52%"/>
+   <stop stop-color="#0B7CF7" offset="79.25%"/>
+   <stop stop-color="#087CFA" offset="100%"/>
+  </linearGradient>
+  <linearGradient y2="-6.587%" y1="97.699%" x2="40.793%" x1="63.121%" id="pluginsdk_80-c">
+   <stop stop-color="#FE315D" offset="0%"/>
+   <stop stop-color="#CB417E" offset="7.84%"/>
+   <stop stop-color="#9E4E9B" offset="16.01%"/>
+   <stop stop-color="#755BB4" offset="24.74%"/>
+   <stop stop-color="#5365CA" offset="33.92%"/>
+   <stop stop-color="#386DDB" offset="43.65%"/>
+   <stop stop-color="#2374E9" offset="54.14%"/>
+   <stop stop-color="#1478F3" offset="65.76%"/>
+   <stop stop-color="#0B7BF8" offset="79.4%"/>
+   <stop stop-color="#087CFA" offset="100%"/>
+  </linearGradient>
+  <linearGradient y2="132.621%" y1="24.119%" x2="93.854%" x1="25.331%" id="pluginsdk_80-d">
+   <stop stop-color="#FE315D" offset="0%"/>
+   <stop stop-color="#F63462" offset="4.023%"/>
+   <stop stop-color="#DF3A71" offset="10.37%"/>
+   <stop stop-color="#C24383" offset="16.67%"/>
+   <stop stop-color="#AD4A91" offset="29.12%"/>
+   <stop stop-color="#755BB4" offset="54.98%"/>
+   <stop stop-color="#1D76ED" offset="91.75%"/>
+   <stop stop-color="#087CFA" offset="100%"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="1162" width="2302" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1" fill-rule="evenodd" fill="none">
+   <g id="svg_2" fill-rule="nonzero">
+    <path id="svg_3" d="m14.08755,72l-6.08755,-4.89991l0,-32.30819l30,11.87844l-19.8596,25.32966l-4.05285,0z" fill="url(#pluginsdk_80-a)"/>
+    <path id="svg_4" d="m28.95247,72l31.32162,-32.08409l-14.60321,-31.45572l0.38721,-0.46019l25.94191,0l0,64l-43.04753,0z" fill="url(#pluginsdk_80-b)"/>
+    <path id="svg_5" d="m42.41238,8l29.58762,0l0,28.03662l-14.99217,15.96338l-15.00783,-43.55304l0.41238,-0.44696z" fill="url(#pluginsdk_80-c)"/>
+    <path id="svg_6" d="m38.33588,72l-30.33588,0l0,-14.02905l6.23438,-20.6879l-6.23438,-2.12344l0,-27.15961l39.46972,0l18.53028,21.38448l-27.46187,42.54143l-0.20225,0.07409z" fill="url(#pluginsdk_80-d)"/>
+   </g>
+   <g id="svg_7" fill-rule="nonzero">
+    <rect id="svg_8" x="12" y="12" fill="#000" height="56" width="56"/>
+    <rect id="svg_9" fill="#FFFEFE" y="58" x="16" height="4" width="22"/>
+   </g>
+  </g>
+  <text stroke="null" transform="matrix(1,0,0,0.971023678779602,0,-0.02852356620132923) " xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="13" id="svg_15" y="25.564066" x="13.084426" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#fffefe">New</text>
+  <text xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="13" id="svg_16" y="38.08239" x="13.318198" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="null" fill="#fffefe">Yapi</text>
+  <text xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="13" id="svg_17" y="53.35511" x="12.954562" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="null" fill="#fffefe">Upload</text>
+ </g>
+</svg>

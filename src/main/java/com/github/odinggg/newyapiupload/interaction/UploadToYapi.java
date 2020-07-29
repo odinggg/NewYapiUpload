@@ -54,7 +54,7 @@ public class UploadToYapi extends AnAction {
     }
 
     public void mainMethod(AnActionEvent e) {
-        AppSettingsState instance = AppSettingsState.getInstance();
+        AppSettingsState instance = AppSettingsState.getInstance(e.getProject());
         Project project = e.getProject();
         if (project == null) {
             return;
@@ -194,7 +194,7 @@ public class UploadToYapi extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-        AppSettingsState instance = AppSettingsState.getInstance();
+        AppSettingsState instance = AppSettingsState.getInstance(e.getProject());
         if (instance.syncCheck) {
             mainMethod(e);
         } else {

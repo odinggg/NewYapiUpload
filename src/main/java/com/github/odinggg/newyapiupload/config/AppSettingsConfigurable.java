@@ -4,6 +4,7 @@ package com.github.odinggg.newyapiupload.config;
 
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
+import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,6 +18,11 @@ public class AppSettingsConfigurable implements Configurable {
 
     // A default constructor with no arguments is required because this implementation
     // is registered as an applicationConfigurable EP
+    private final AppSettingsState appSettingsState;
+
+    public AppSettingsConfigurable(Project project) {
+        appSettingsState = AppSettingsState.getInstance(project);
+    }
 
     @Nls(capitalization = Nls.Capitalization.Title)
     @Override
@@ -38,7 +44,10 @@ public class AppSettingsConfigurable implements Configurable {
 
     @Override
     public boolean isModified() {
-        AppSettingsState settings = AppSettingsState.getInstance();
+        if (mySettingsComponent == null) {
+            mySettingsComponent = new AppSettingsComponent();
+        }
+        AppSettingsState settings = appSettingsState;
         boolean modified = !mySettingsComponent.getProjectToken().equals(settings.projectToken);
         modified |= !mySettingsComponent.getProjectId().equals(settings.projectId);
         modified |= !mySettingsComponent.getYapiUrl().equals(settings.yapiUrl);
@@ -52,7 +61,7 @@ public class AppSettingsConfigurable implements Configurable {
 
     @Override
     public void apply() throws ConfigurationException {
-        AppSettingsState settings = AppSettingsState.getInstance();
+        AppSettingsState settings = appSettingsState;
         settings.projectToken = mySettingsComponent.getProjectToken();
         settings.projectId = mySettingsComponent.getProjectId();
         settings.yapiUrl = mySettingsComponent.getYapiUrl();
@@ -65,7 +74,7 @@ public class AppSettingsConfigurable implements Configurable {
 
     @Override
     public void reset() {
-        AppSettingsState settings = AppSettingsState.getInstance();
+        AppSettingsState settings = appSettingsState;
         mySettingsComponent.setProjectToken(settings.projectToken);
         mySettingsComponent.setProjectId(settings.projectId);
         mySettingsComponent.setYapiUrl(settings.yapiUrl);
